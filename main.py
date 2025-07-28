@@ -27,16 +27,13 @@ for i in range(N_STEPS-1):
     u = matrix @ u
     us.append(u.copy())
 
-# Compute the eigenvalues and eigenvectors
 
 ps.init()
 
 ps_cow = ps.register_surface_mesh("cow", V, F)
 
-# Add the final heat diffusion solution as a scalar quantity
 heat_quantity = ps_cow.add_scalar_quantity("heat diffusion", us[0], enabled=True, vminmax=(0, 1e-2))
 
-# Track the current time step
 current_step = N_STEPS - 1
 
 def callback():
