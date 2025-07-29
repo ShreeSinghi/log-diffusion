@@ -5,7 +5,7 @@ from scipy.sparse import csr_matrix, eye
 from scipy.sparse.linalg import inv
 import polyscope.imgui as psim
 
-V, F = gpy.read_mesh('data/spot_low_resolution.obj')
+V, F = gpy.read_mesh('data/spot.obj')
 
 L = gpy.cotangent_laplacian(V, F)
 M = gpy.massmatrix(V,F)
@@ -15,7 +15,7 @@ N_VERTICES = V.shape[0]
 N_STEPS = 100
 
 u = np.zeros(N_VERTICES)
-u[[0, 300, 700]] = 1
+u[[0, 300, 700]] = 10
 
 
 M_inverse = csr_matrix((1/M.data, M.indices, M.indptr))
@@ -32,9 +32,9 @@ ps.init()
 
 ps_cow = ps.register_surface_mesh("cow", V, F)
 
-heat_quantity = ps_cow.add_scalar_quantity("heat diffusion", us[0], enabled=True, vminmax=(0, 1e-2))
+heat_quantity = ps_cow.add_scalar_quantity("heat diffusion", us[0], enabled=True, vminmax=(0, 1))
 
-current_step = N_STEPS - 1
+current_step = 0
 
 def callback():
     global current_step
@@ -42,7 +42,7 @@ def callback():
     changed, current_step = psim.SliderInt("Time step", current_step, 0, N_STEPS-1)
     
     if changed:
-        ps_cow.add_scalar_quantity("heat diffusion", us[current_step], enabled=True, vminmax=(0, 1e-2))
+        ps_cow.add_scalar_quantity("heat diffusion", us[current_step], enabled=True, vminmax=(0, 1))
 
 
 ps.set_user_callback(callback)
