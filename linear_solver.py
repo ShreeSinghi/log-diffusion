@@ -5,7 +5,7 @@ from scipy.sparse import csr_matrix, eye
 from scipy.sparse.linalg import inv
 import polyscope.imgui as psim
 
-V, F = gpy.read_mesh('data/spot.obj')
+V, F = gpy.read_mesh('data/spot_low_resolution.obj')
 
 L = gpy.cotangent_laplacian(V, F)
 M = gpy.massmatrix(V,F)
